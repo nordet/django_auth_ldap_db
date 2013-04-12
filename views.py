@@ -20,14 +20,9 @@ def login_interne(request):
       zimbraServer = form.cleaned_data['host']
       request.session['currentZimbraServer'] = zimbraServer
       # request.session.modified = True
-      print "===== login_interne : zimbraServer = ", zimbraServer
-      # user = authenticate(username=username, password=password)
       backend = LDAPBackendDB()
       backend._set_zimbraServer(zimbraServer)
       backend._get_settings()
-      # user = authenticate(username=username, password=password)
-      # print "===== login_interne : type(user) = ", type(user)
-      # print "===== login_interne : user = ", user
       user = backend.authenticate(username=username, password=password)
       if user is not None:
         user.backend = 'django_auth_ldap_db.backend.LDAPBackendDB'
@@ -40,23 +35,32 @@ def login_interne(request):
           logout(request)
           messageType = "warning"
           message = "Compte inexistant !"
-          return render_to_response('message.html', {'STATIC_URL': settings.STATIC_URL,
-                                                     'messageType': messageType, 'message': message},
+          # return render_to_response('message.html', {'STATIC_URL': settings.STATIC_URL,
+          #                                           'messageType': messageType, 'message': message},
+          #                          context_instance=RequestContext(request))
+          return render_to_response('login.html',
+                                    {'form': form, },
                                     context_instance=RequestContext(request))
       else:
         logout(request)
         messageType = "warning"
         message = "Compte inexistant !"
-        return render_to_response('message.html', {'STATIC_URL': settings.STATIC_URL,
-                                                   'messageType': messageType, 'message': message},
+        # return render_to_response('message.html', {'STATIC_URL': settings.STATIC_URL,
+        #                                           'messageType': messageType, 'message': message},
+        #                          context_instance=RequestContext(request))
+        return render_to_response('login.html',
+                                  {'form': form, },
                                   context_instance=RequestContext(request))
     else:
       # return HttpResponse("Identifiant ou mot de passe incorrect !")
       logout(request)
       messageType = "warning"
       message = "Identifiant ou mot de passe incorrect !"
-      return render_to_response('message.html', {'STATIC_URL': settings.STATIC_URL,
-                                                 'messageType': messageType, 'message': message},
+      # return render_to_response('message.html', {'STATIC_URL': settings.STATIC_URL,
+      #                                           'messageType': messageType, 'message': message},
+      #                          context_instance=RequestContext(request))
+      return render_to_response('login.html',
+                                {'form': form, },
                                 context_instance=RequestContext(request))
   else:
     form = LoginForm()

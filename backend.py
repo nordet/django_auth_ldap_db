@@ -3,28 +3,19 @@
 Created on 30 mars 2013
 
 @author: pascal
+
+Ce module défini le backend d'authentification via un des serveurs ldap stockés en base de données. Il se base
+sur le backend d'authentification de la librairie django_auth_ldap qu'il surcharge.
 '''
 from django_auth_ldap_db.models.ZimbraServerClass import ZimbraServerClass
 from django_auth_ldap_db.models.LdapServerClass import LdapServerClass
-from rope.base.builtins import Str
 
 try:
     set
 except NameError:
     from sets import Set as set  # Python 2.3 fallback
 
-import sys
-import traceback
-import pprint
-import copy
-
-import django.db
-from django.contrib.auth.models import User, Group, Permission, SiteProfileNotAvailable
-from django.core.cache import cache
-from django.core.exceptions import ImproperlyConfigured, ObjectDoesNotExist
-import django.dispatch
-from django.contrib.sessions.backends.db import SessionStore
-from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth.models import User
 
 # Support Django 1.5's custom user models
 try:

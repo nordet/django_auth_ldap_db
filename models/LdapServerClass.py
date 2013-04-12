@@ -7,7 +7,6 @@ Created on 23 mars 2013
 from django.db import models
 from django.utils.translation import ugettext_lazy as _
 from ZimbraServerClass import ZimbraServerClass
-from django.template.defaultfilters import default
 
 class LdapServerClass(models.Model):
   host = models.CharField(_(u"host of Zimbra server"),

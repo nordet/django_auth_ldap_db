@@ -1,0 +1,37 @@
+{% extends "base.html" %}
+{% block css %}
+  {{ block.super }}
+  <link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}css/login_form.css">
+{% endblock %}
+
+{% block content %}
+
+{% if form.errors %}
+<p>Votre nom d'utilisateur et mot de passe ne correspondent pas. S'il vous plaît essayez à nouveau.</p>
+{% endif %}
+
+<h2>Veuillez entrer votre identifiant et votre mot de passe :</h2>
+<form method="post" action="login_interne" class="niceform">
+  {% csrf_token %}
+  <dl>
+    <dt>{{ form.userName.label_tag }} :</dt>
+    <dd>{{ form.userName }}</dd>
+    <dd>{{ form.userName.errors }}</dd>
+  </dl>
+  <dl>
+    <dt>{{ form.userPassword.label_tag }} :</dt>
+    <dd>{{ form.userPassword }}</dd>
+    <dd>{{ form.userPassword.errors }}</dd>
+  </dl>
+  <dl>
+    <dt>{{ form.host.label_tag }} :</dt>
+    <dd>{{ form.host }}</dd>
+    <dd>{{ form.host.errors }}</dd>
+  </dl>
+  <div class="break">
+    <input type="submit" value="login" />
+    <input type="hidden" name="next" value="{{ next }}" />
+  </div>
+</form>
+
+{% endblock %}
